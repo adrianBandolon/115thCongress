@@ -1,0 +1,17 @@
+model {
+  for (i in 1:length(party)) {
+    party[i] ~ dbern(prob[i])
+    logit(prob[i]) <- beta0 + betaState[state[i]] + betaIncome * IncomeStdized[i]
+    
+    party_rep[i] ~ dbern(prob[i])
+    }
+  # beta state prior
+  for (j in 1:max(state)) {
+    betaState[j] ~ dnorm(0, sigmaState)
+    }
+  # other priors
+  beta0 ~ dt(0, 0.01, 1) # intercept
+  betaIncome ~ dt(0, 0.16, 1) # slope
+  # hyperprior
+  sigmaState ~ dunif(0,100)
+  }

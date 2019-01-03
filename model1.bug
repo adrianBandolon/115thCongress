@@ -1,0 +1,11 @@
+model {
+  for (i in 1:length(party)) {
+    party[i] ~ dbern(prob[i])
+    logit(prob[i]) <- beta0 + betaIncome * IncomeStdized[i]
+    
+    party_rep[i] ~ dbern(prob[i])
+    }
+
+  beta0 ~ dt(0, 0.01, 1) # intercept
+  betaIncome ~ dt(0, 0.16, 1) # slope
+  }
